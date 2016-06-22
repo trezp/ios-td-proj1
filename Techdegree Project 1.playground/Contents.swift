@@ -1,165 +1,197 @@
 
-//Can't figure out how to unwrap optional variables with the array of dictionaries that I created, so I am trying to simply by having each student be its own dictionary. 
-
-var joeSmith: [String:Any] = [
-    "firstName" : "Joe",
-    "lastName": "Smith",
-    "height": 42,
-    "experience": true,
-    "guardians": "Jim and Jan Smith"
+var studentsArray = [
+    [
+        "firstName" : "Joe",
+        "lastName": "Smith",
+        "height": "42",
+        "experience": "true",
+        "guardians": "Jim and Jan Smith"
+    ],
+    [
+        "firstName" : "Jill",
+        "lastName": "Tanner",
+        "height": "36",
+        "experience": "true",
+        "guardians": "Clara Tanner"
+    ],
+    [
+        "firstName" : "Bill",
+        "lastName": "Bon",
+        "height": "43",
+        "experience": "true",
+        "guardians": "Sara and Jenny Bon"
+    ],
+    [
+        "firstName" : "Eva",
+        "lastName": "Gordon",
+        "height": "45",
+        "experience": "false",
+        "guardians": "Wendy and Mike Gordon"
+    ],
+    [
+        "firstName" : "Matt",
+        "lastName": "Gill",
+        "height": "40",
+        "experience": "false",
+        "guardians": "Charles and Sylvia Gill"
+    ],
+    [
+        "firstName" : "Kimmy",
+        "lastName": "Stein",
+        "height": "41",
+        "experience": "false",
+        "guardians": "Bill and Hillary Stein"
+    ],
+    [
+        "firstName" : "Sammy",
+        "lastName": "Adams",
+        "height": "45",
+        "experience": "false",
+        "guardians": "Jeff Adams"
+    ],
+    [
+        "firstName" : "Karl",
+        "lastName": "Saygan",
+        "height": "42",
+        "experience": "true",
+        "guardians": "Heather Bledsoe"
+    ],
+    [
+        "firstName" : "Suzane",
+        "lastName": "Greenberg",
+        "height": "44",
+        "experience": "true",
+        "guardians": "Henrietta Dumas"
+    ],
+    [
+        "firstName" : "Sal",
+        "lastName": "Dali",
+        "height": "41",
+        "experience": "false",
+        "guardians": "Gala Dali"
+    ],
+    [
+        "firstName" : "Joe",
+        "lastName": "Kavalier",
+        "height": "39",
+        "experience": "false",
+        "guardians": "Sam and Elaine Kavalier"
+    ],
+    [
+        "firstName" : "Ben",
+        "lastName": "Finkelstein",
+        "height": "44",
+        "experience": "false",
+        "guardians": "Aaron and Jill Finkelstein"
+    ],
+    [
+        "firstName" : "Diego",
+        "lastName": "Soto",
+        "height": "41",
+        "experience": "true",
+        "guardians": "Robin and Sirka Soto"
+    ],
+    [
+        "firstName" : "Chloe",
+        "lastName": "Alaska",
+        "height": "47",
+        "experience": "false",
+        "guardians": "David and Jamie Alaska"
+    ],
+    [
+        "firstName" : "Arnold",
+        "lastName": "Willis",
+        "height": "43",
+        "experience": "false",
+        "guardians": "Claire Willis"
+    ],
+    [
+        "firstName" : "Phillip",
+        "lastName": "Helm",
+        "height": "44",
+        "experience": "true",
+        "guardians": "Thomas Helm and Eva Jones"
+    ],
+    [
+        "firstName" : "Les",
+        "lastName": "Clay",
+        "height": "42",
+        "experience": "true",
+        "guardians": "Wynonna Brown"
+    ],
+    [
+        "firstName" : "Herschel",
+        "lastName": "Krustofski",
+        "height": "45",
+        "experience": "true",
+        "guardians": "Hyman and Rachel Krustofski"
+    ]
 ]
 
-var jillTanner: [String:Any] = [
-    "firstName" : "Joe",
-    "lastName": "Smith",
-    "height": 42,
-    "experience": true,
-    "guardians": "Jim and Jan Smith"
-]
+var teamOne: [Dictionary<String,String>] = []
+var teamTwo: [Dictionary<String,String>] = []
+var teamThree: [Dictionary<String,String>] = []
 
-//Manually creating an array of students
-var studentsArray = [joeSmith, jillTanner]
-print(studentsArray[0]["height"])
-
-//unwraps the optional function, but this seems really inefficient
-func getDictValue(value: String, dict dictionary: Dictionary<String, Any>) {
-    //takes the dictionary and the value, assignes value to new variable, then prints without "Optional"
-    if let dictValue = dictionary[value] {
-        print(dictValue)
+//counts the number of experienced and inexperienced students
+func getNumberofExperiencedStudents(isExperienced: Bool) -> Int {
+    var studentsWithExperience = 0
+    var studentsWithoutExperience = 0
+   
+    for student in studentsArray {
+        if student["experience"] == "true" {
+            studentsWithExperience += 1
+        } else if student["experience"] == "false" {
+            studentsWithoutExperience += 1
+        }
+    }
+    //returns the number of experienced or inexperienced students based on which bool is passed
+    if isExperienced == true {
+        return studentsWithExperience
+    } else {
+        return studentsWithoutExperience
+    }
+    
+}
+//Divides the total number of experienced and inexperienced students by the number of teams passed into the function to calculate the max number of players allowed in each team
+func getStudentCountForEachTeam(numOfTeams numOfTeams: Int, experience: Bool) -> Int {
+    if experience == true {
+        let studentNum = getNumberofExperiencedStudents(true)
+        return studentNum / numOfTeams
+    } else {
+        let studentNum = getNumberofExperiencedStudents(false)
+        return studentNum / numOfTeams
     }
 }
 
-getDictValue("firstName", dict: joeSmith)
-getDictValue("lastName", dict: joeSmith)
+//Saves the allowed number of experienced and inexperienced players into variables
+var experiencedPlayersPerTeam = getStudentCountForEachTeam(numOfTeams: 3, experience: true)
+var inexperiencedPlayersPerTeam = getStudentCountForEachTeam(numOfTeams: 3, experience: false)
+var totalTeamSize = experiencedPlayersPerTeam + inexperiencedPlayersPerTeam
+print(totalTeamSize)
 
-//Original data structure. Having trouble accessing variables without the "Optional" thing that I don't quite understand yet. 
+//Compares the number of experienced players in the team's array with the allowed number of experienced players. Players are pushed into the array until the max number is reached.
+for student in studentsArray {
+    
+    if student["experience"] == "true" && teamOne.count + 1 <= experiencedPlayersPerTeam {
+        teamOne.append(student)
+    } else if student["experience"] == "true" && teamTwo.count + 1 <= experiencedPlayersPerTeam{
+        teamTwo.append(student)
+    } else if student["experience"] == "true" && teamThree.count + 1 <= experiencedPlayersPerTeam {
+        teamThree.append(student)
+    } else if student["experience"] == "false" && teamOne.count + 1 <= totalTeamSize {
+        teamOne.append(student)
+    } else if student["experience"] == "false" && teamTwo.count + 1 <= totalTeamSize {
+        teamTwo.append(student)
+    } else if student["experience"] == "false" && teamThree.count + 1 <= totalTeamSize {
+        teamThree.append(student)
+    }
+}
 
-//var studentsArray: [Dictionary<String, Any>] = [
-//    [
-//        "firstName" : "Joe",
-//        "lastName": "Smith",
-//        "height": 42,
-//        "experience": true,
-//        "guardians": "Jim and Jan Smith"
-//    ],
-//    [
-//        "firstName" : "Jill",
-//        "lastName": "Tanner",
-//        "height": 36,
-//        "experience": true,
-//        "guardians": "Clara Tanner"
-//    ],
-//    [
-//        "firstName" : "Bill",
-//        "lastName": "Bon",
-//        "height": 43,
-//        "experience": true,
-//        "guardians": "Sara and Jenny Bon"
-//    ],
-//    [
-//        "firstName" : "Eva",
-//        "lastName": "Gordon",
-//        "height": 45,
-//        "experience": false,
-//        "guardians": "Wendy and Mike Gordon"
-//    ],
-//    [
-//        "firstName" : "Matt",
-//        "lastName": "Gill",
-//        "height": 40,
-//        "experience": false,
-//        "guardians": "Charles and Sylvia Gill"
-//    ],
-//    [
-//        "firstName" : "Kimmy",
-//        "lastName": "Stein",
-//        "height": 41,
-//        "experience": false,
-//        "guardians": "Bill and Hillary Stein"
-//    ],
-//    [
-//        "firstName" : "Sammy",
-//        "lastName": "Adams",
-//        "height": 45,
-//        "experience": false,
-//        "guardians": "Jeff Adams"
-//    ],
-//    [
-//        "firstName" : "Karl",
-//        "lastName": "Saygan",
-//        "height": 42,
-//        "experience": true,
-//        "guardians": "Heather Bledsoe"
-//    ],
-//    [
-//        "firstName" : "Suzane",
-//        "lastName": "Greenberg",
-//        "height": 44,
-//        "experience": true,
-//        "guardians": "Henrietta Dumas"
-//    ],
-//    [
-//        "firstName" : "Sal",
-//        "lastName": "Dali",
-//        "height": "41",
-//        "experience": false,
-//        "guardians": "Gala Dali"
-//    ],
-//    [
-//        "firstName" : "Joe",
-//        "lastName": "Kavalier",
-//        "height": 39,
-//        "experience": false,
-//        "guardians": "Sam and Elaine Kavalier"
-//    ],
-//    [
-//        "firstName" : "Ben",
-//        "lastName": "Finkelstein",
-//        "height": 44,
-//        "experience": false,
-//        "guardians": "Aaron and Jill Finkelstein"
-//    ],
-//    [
-//        "firstName" : "Diego",
-//        "lastName": "Soto",
-//        "height": 41,
-//        "experience": true,
-//        "guardians": "Robin and Sirka Soto"
-//    ],
-//    [
-//        "firstName" : "Chloe",
-//        "lastName": "Alaska",
-//        "height": 47,
-//        "experience": false,
-//        "guardians": "David and Jamie Alaska"
-//    ],
-//    [
-//        "firstName" : "Arnold",
-//        "lastName": "Willis",
-//        "height": 43,
-//        "experience": false,
-//        "guardians": "Claire Willis"
-//    ],
-//    [
-//        "firstName" : "Phillip",
-//        "lastName": "Helm",
-//        "height": 44,
-//        "experience": true,
-//        "guardians": "Thomas Helm and Eva Jones"
-//    ],
-//    [
-//        "firstName" : "Les",
-//        "lastName": "Clay",
-//        "height": 42,
-//        "experience": true,
-//        "guardians": "Wynonna Brown"
-//    ],
-//    [
-//        "firstName" : "Herschel",
-//        "lastName": "Krustofski",
-//        "height": 45,
-//        "experience": true,
-//        "guardians": "Hyman and Rachel Krustofski"
-//    ]
-//]
+
+print("Team One has \(teamOne.count) members and is \(teamOne)")
+print("Team Two has \(teamTwo.count) members and is \(teamTwo)")
+print("Team Three has \(teamThree.count) members and is \(teamThree )")
+print(teamOne.count + teamTwo.count + teamThree.count)
+
+
 
