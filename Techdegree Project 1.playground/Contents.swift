@@ -128,6 +128,8 @@ var studentsArray = [
     ]
 ]
 
+var experiencedArray: [Dictionary<String,String>] = []
+var inexperiencedArray: [Dictionary<String,String>] = []
 var teamOne: [Dictionary<String,String>] = []
 var teamTwo: [Dictionary<String,String>] = []
 var teamThree: [Dictionary<String,String>] = []
@@ -167,31 +169,57 @@ func getStudentCountForEachTeam(numOfTeams numOfTeams: Int, experience: Bool) ->
 var experiencedPlayersPerTeam = getStudentCountForEachTeam(numOfTeams: 3, experience: true)
 var inexperiencedPlayersPerTeam = getStudentCountForEachTeam(numOfTeams: 3, experience: false)
 var totalTeamSize = experiencedPlayersPerTeam + inexperiencedPlayersPerTeam
-print(totalTeamSize)
+
+
+//sorts players into experience level arrays
+for student in studentsArray {
+    if student["experience"] == "true" {
+        experiencedArray.append(student)
+    } else {
+        inexperiencedArray.append(student)
+    }
+}
 
 //Compares the number of experienced players in the team's array with the allowed number of experienced players. Players are pushed into the array until the max number is reached.
-for student in studentsArray {
-    
-    if student["experience"] == "true" && teamOne.count + 1 <= experiencedPlayersPerTeam {
+for student in experiencedArray {
+    if teamOne.count + 1 <= experiencedPlayersPerTeam {
         teamOne.append(student)
-    } else if student["experience"] == "true" && teamTwo.count + 1 <= experiencedPlayersPerTeam{
+    } else if teamTwo.count + 1 <= experiencedPlayersPerTeam{
         teamTwo.append(student)
-    } else if student["experience"] == "true" && teamThree.count + 1 <= experiencedPlayersPerTeam {
+    } else if teamThree.count + 1 <= experiencedPlayersPerTeam {
         teamThree.append(student)
-    } else if student["experience"] == "false" && teamOne.count + 1 <= totalTeamSize {
+    }
+}
+
+for student in inexperiencedArray {
+    if teamOne.count + 1 <= totalTeamSize {
         teamOne.append(student)
-    } else if student["experience"] == "false" && teamTwo.count + 1 <= totalTeamSize {
+    } else if teamTwo.count + 1 <= totalTeamSize{
         teamTwo.append(student)
-    } else if student["experience"] == "false" && teamThree.count + 1 <= totalTeamSize {
+    } else if teamThree.count + 1 <= totalTeamSize {
         teamThree.append(student)
     }
 }
 
 
-print("Team One has \(teamOne.count) members and is \(teamOne)")
-print("Team Two has \(teamTwo.count) members and is \(teamTwo)")
-print("Team Three has \(teamThree.count) members and is \(teamThree )")
+print("Team One has \(teamOne.count) members")
+print("Team Two has \(teamTwo.count) members")
+print("Team Three has \(teamThree.count) members")
 print(teamOne.count + teamTwo.count + teamThree.count)
 
+
+
+for student in teamOne {
+    print(student["experience"])
+}
+print("****************************")
+for student in teamTwo {
+    print(student["experience"])
+}
+print("****************************")
+for student in teamThree {
+    print(student["experience"])
+}
+print("****************************")
 
 
