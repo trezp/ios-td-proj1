@@ -128,139 +128,124 @@ var studentsArray = [
     ]
 ]
 
-//////////SORTING BY HEIGHT////////////////
-//I need to do this after the experienced players have been sorted. The inexperienced players could be based on the height of the first
-//experienced player.
 
-func getArrayOfHeights() -> Array<Double> {
-    var heightArray: [Double] = [ ]
+
+//////////SORTING BY EXPERIENCE LEVEL////////////////
+
+var experiencedArray: [Dictionary<String,String>] = []
+var inexperiencedArray: [Dictionary<String,String>] = []
+var teamOne: [Dictionary<String,String>] = []
+var teamTwo: [Dictionary<String,String>] = []
+var teamThree: [Dictionary<String,String>] = []
+
+//Sets max number of students per team by counting the number of experienced and inexperienced students and dividing by number of teams
+func getNumberofStudentsPerTeam(numOfTeams numOfTeams: Int, isExperienced: Bool) -> Int {
+    var studentsWithExperience = 0
+    var studentsWithoutExperience = 0
+   
     for student in studentsArray {
-        let studentHeights = Double(student["height"]!)
-        heightArray.append(studentHeights!)
-    }
-    return heightArray
-}
-
-var heightArray = getArrayOfHeights()
-print(heightArray.count)
-print(heightArray[5])
-
-func getAveragePlayerHeight() -> Double {
-    var heightsAdded = 0.0
-    for height in heightArray {
-        heightsAdded += height
-    }
-    return heightsAdded / Double(heightArray.count)
-}
-
-var lower: [Int] = []
-var mid: [Int] = []
-var upper: [Int] = []
-
-func compareHeights(){
-    let heightDiff = 1.5
-    
-    for height in 0...heightArray.count - 2 {
-        if heightArray[height+1] >= heightArray[height] + heightDiff || heightArray[height+1] <= heightArray[height] + heightDiff {
-            print(height)
-        } else {
-            
+        if student["experience"] == "true" {
+            studentsWithExperience += 1
+        } else if student["experience"] == "false" {
+            studentsWithoutExperience += 1
         }
     }
+    
+    if isExperienced == true {
+        return studentsWithExperience / numOfTeams
+    } else {
+        return studentsWithoutExperience / numOfTeams
+    }
 }
 
-compareHeights()
-//func sortArrayByHeight() -> Int {
-//   let shortestPlayer = heightArray.minElement()
-//   let tallestPlayer = heightArray.maxElement()
-//   return 333
-//}
+//Saves the max number of experienced and inexperienced players per team into variables
+var experiencedPlayersPerTeam = getNumberofStudentsPerTeam(numOfTeams: 3, isExperienced: true)
+var inexperiencedPlayersPerTeam = getNumberofStudentsPerTeam(numOfTeams: 3, isExperienced: false)
+var totalTeamSize = experiencedPlayersPerTeam + inexperiencedPlayersPerTeam
 
-//sortArrayByHeight()
 
-////////////SORTING BY EXPERIENCE LEVEL////////////////
-//
-//var experiencedArray: [Dictionary<String,String>] = []
-//var inexperiencedArray: [Dictionary<String,String>] = []
-//var teamOne: [Dictionary<String,String>] = []
-//var teamTwo: [Dictionary<String,String>] = []
-//var teamThree: [Dictionary<String,String>] = []
-//
-////Sets max number of students per team by counting the number of experienced and inexperienced students and dividing by number of teams
-//func getNumberofStudentsPerTeam(numOfTeams numOfTeams: Int, isExperienced: Bool) -> Int {
-//    var studentsWithExperience = 0
-//    var studentsWithoutExperience = 0
-//   
+//sorts players into experience level arrays
+for student in studentsArray {
+    if student["experience"] == "true" {
+        experiencedArray.append(student)
+    } else {
+        inexperiencedArray.append(student)
+    }
+}
+////////SORTING BY HEIGHT////////////////
+//func getArrayOfHeights() -> Array<Double> {
+//    var heightArray: [Double] = [ ]
 //    for student in studentsArray {
-//        if student["experience"] == "true" {
-//            studentsWithExperience += 1
-//        } else if student["experience"] == "false" {
-//            studentsWithoutExperience += 1
+//        let studentHeights = Double(student["height"]!)
+//        heightArray.append(studentHeights!)
+//    }
+//    return heightArray
+//}
+//
+//var heightArray = getArrayOfHeights()
+//var tallest = [Double] ()
+//var shortest = [Double] ()
+//var middle = [Double] ()
+//
+//
+//func findAndRemoveHighestNumber() {
+//    for height in 0...heightArray.count - 1 {
+//        if heightArray[height] == heightArray.maxElement() {
+//            tallest.append(heightArray.maxElement()!)
+//            //heightArray.removeAtIndex(height)
 //        }
 //    }
-//    
-//    if isExperienced == true {
-//        return studentsWithExperience / numOfTeams
-//    } else {
-//        return studentsWithoutExperience / numOfTeams
-//    }
+//    print(heightArray.count)
 //}
 //
-////Saves the max number of experienced and inexperienced players per team into variables
-//var experiencedPlayersPerTeam = getNumberofStudentsPerTeam(numOfTeams: 3, isExperienced: true)
-//var inexperiencedPlayersPerTeam = getNumberofStudentsPerTeam(numOfTeams: 3, isExperienced: false)
-//var totalTeamSize = experiencedPlayersPerTeam + inexperiencedPlayersPerTeam
-//
-//
-////sorts players into experience level arrays
-//for student in studentsArray {
-//    if student["experience"] == "true" {
-//        experiencedArray.append(student)
-//    } else {
-//        inexperiencedArray.append(student)
-//    }
-//}
-//
-////Compares the number of experienced players in the team's array with the allowed number of experienced players. Players are pushed into the array until the max number is reached.
-//for student in experiencedArray {
-//    if teamOne.count + 1 <= experiencedPlayersPerTeam {
-//        teamOne.append(student)
-//    } else if teamTwo.count + 1 <= experiencedPlayersPerTeam{
-//        teamTwo.append(student)
-//    } else if teamThree.count + 1 <= experiencedPlayersPerTeam {
-//        teamThree.append(student)
-//    }
-//}
-//
-//for student in inexperiencedArray {
-//    if teamOne.count + 1 <= totalTeamSize {
-//        teamOne.append(student)
-//    } else if teamTwo.count + 1 <= totalTeamSize{
-//        teamTwo.append(student)
-//    } else if teamThree.count + 1 <= totalTeamSize {
-//        teamThree.append(student)
-//    }
-//}
-//
-//
-//print("Team One has \(teamOne.count) members")
-//print("Team Two has \(teamTwo.count) members")
-//print("Team Three has \(teamThree.count) members")
-//print(teamOne.count + teamTwo.count + teamThree.count)
-//
-//
-//
-//for student in teamOne {
-//    print(student["experience"])
-//}
-//print("****************************")
-//for student in teamTwo {
-//    print(student["experience"])
-//}
-//print("****************************")
-//for student in teamThree {
-//    print(student["experience"])
-//}
-//print("****************************")
+//findAndRemoveHighestNumber()
+////sortByHeight()
+//print(tallest)
+//print(shortest)
+//print(middle)
+
+//Compares the number of experienced players in the team's array with the allowed number of experienced players. Players are pushed into the array until the max number is reached.
+for student in experiencedArray {
+    if teamOne.count + 1 <= experiencedPlayersPerTeam  {
+        teamOne.append(student)
+    } else if teamTwo.count + 1 <= experiencedPlayersPerTeam {
+        teamTwo.append(student)
+    } else if teamThree.count + 1 <= experiencedPlayersPerTeam {
+        teamThree.append(student)
+    }
+}
+
+for student in inexperiencedArray {
+    if teamOne.count + 1 <= totalTeamSize {
+        teamOne.append(student)
+    } else if teamTwo.count + 1 <= totalTeamSize{
+        teamTwo.append(student)
+    } else if teamThree.count + 1 <= totalTeamSize {
+        teamThree.append(student)
+    }
+}
+
+
+print("Team One has \(teamOne.count) members")
+print("Team Two has \(teamTwo.count) members")
+print("Team Three has \(teamThree.count) members")
+print(teamOne.count + teamTwo.count + teamThree.count)
+
+
+
+for student in teamOne {
+    print(student["experience"])
+}
+print("****************************")
+for student in teamTwo {
+    print(student["experience"])
+}
+print("****************************")
+for student in teamThree {
+    print(student["experience"])
+}
+print("****************************")
+
+
 
 
