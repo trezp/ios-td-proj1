@@ -172,37 +172,7 @@ for student in studentsArray {
         inexperiencedArray.append(student)
     }
 }
-////////SORTING BY HEIGHT////////////////
-//func getArrayOfHeights() -> Array<Double> {
-//    var heightArray: [Double] = [ ]
-//    for student in studentsArray {
-//        let studentHeights = Double(student["height"]!)
-//        heightArray.append(studentHeights!)
-//    }
-//    return heightArray
-//}
-//
-//var heightArray = getArrayOfHeights()
-//var tallest = [Double] ()
-//var shortest = [Double] ()
-//var middle = [Double] ()
-//
-//
-//func findAndRemoveHighestNumber() {
-//    for height in 0...heightArray.count - 1 {
-//        if heightArray[height] == heightArray.maxElement() {
-//            tallest.append(heightArray.maxElement()!)
-//            //heightArray.removeAtIndex(height)
-//        }
-//    }
-//    print(heightArray.count)
-//}
-//
-//findAndRemoveHighestNumber()
-////sortByHeight()
-//print(tallest)
-//print(shortest)
-//print(middle)
+
 
 //Compares the number of experienced players in the team's array with the allowed number of experienced players. Players are pushed into the array until the max number is reached.
 for student in experiencedArray {
@@ -246,6 +216,30 @@ for student in teamThree {
 }
 print("****************************")
 
+var arrayWithTeams: [Dictionary<String,String>] = []
 
+func addTeamNames(teamName: String, teamKey: String, teamArray: [Dictionary<String, String>]){
+    for student in teamArray {
+        var student = student
+        student[teamKey] = teamName
+        arrayWithTeams.append(student)
+    }
+}
+addTeamNames("Team One", teamKey: "team", teamArray: teamOne)
+addTeamNames("Team Two", teamKey: "team", teamArray: teamTwo)
+addTeamNames("Team Three",  teamKey: "team", teamArray: teamThree)
+print(arrayWithTeams)
+
+for student in arrayWithTeams {
+    let firstName = student["firstName"]!
+    let lastName = student["lastName"]!
+    let guardians = student["guardians"]!
+    let teamName = student["team"]!
+    let height = student["height"]!
+    
+    let letter = "Dear \(guardians):\n This letter is to inform you that your child, \(firstName) \(lastName), will be joining the soccer team \(teamName) on the Sept 1, 2017. Just FYI, \(firstName) is \(height) inches tall."
+    print(letter)
+    
+}
 
 
